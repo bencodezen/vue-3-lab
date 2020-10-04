@@ -1,29 +1,32 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <p>{{ book }}</p>
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h1>Hello!</h1>
+    <Map />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import { useBook } from './features/useBook'
-import { provide, readonly } from 'vue'
+import Map from './components/Map'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  },
-  setup() {
-    const { book, changeBookName } = useBook()
-
-    provide('book', readonly(book))
-    provide('changeBookName', changeBookName)
-
+  components: { Map },
+  data() {
     return {
-      book
+      name: 'Tony Stark',
+      id: 123,
+      inventory: [],
+      abilities: {}
+    }
+  },
+  computed: {
+    firstName() {
+      return this.name.split(' ')[0]
+    }
+  },
+  methods: {
+    changeName() {
+      this.name = 'Tony Stark'
     }
   }
 }
