@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <h1>Hello!</h1>
+    <EventValidator />
     <BasicTeleport />
     <TestWindow />
     <button @click="showTeleport = !showTeleport">Toggle Teleport</button>
@@ -10,11 +11,13 @@
 <script>
 import TestWindow from './components/TestWindow'
 import BasicTeleport from './components/BasicTeleport'
+import EventValidator from './components/EventValidator'
 
 export default {
   name: 'App',
   components: {
     BasicTeleport,
+    EventValidator,
     TestWindow
   },
   data() {
