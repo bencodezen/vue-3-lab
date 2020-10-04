@@ -1,22 +1,29 @@
 <template>
   <div id="app">
     <h1>Hello!</h1>
-    <Map />
+    <BasicTeleport />
+    <TestWindow />
+    <button @click="showTeleport = !showTeleport">Toggle Teleport</button>
   </div>
 </template>
 
 <script>
-import Map from './components/Map'
+import TestWindow from './components/TestWindow'
+import BasicTeleport from './components/BasicTeleport'
 
 export default {
   name: 'App',
-  components: { Map },
+  components: {
+    BasicTeleport,
+    TestWindow
+  },
   data() {
     return {
       name: 'Tony Stark',
       id: 123,
       inventory: [],
-      abilities: {}
+      abilities: {},
+      showTeleport: true
     }
   },
   computed: {
