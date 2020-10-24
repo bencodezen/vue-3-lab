@@ -1,45 +1,20 @@
 <template>
   <div id="app">
-    <h1>Hello!</h1>
-    <EventValidator />
-    <BasicTeleport />
-    <TestWindow />
-    <button @click="showTeleport = !showTeleport">Toggle Teleport</button>
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
 </template>
 
-<script>
-import TestWindow from './components/TestWindow'
-import BasicTeleport from './components/BasicTeleport'
-import EventValidator from './components/EventValidator'
+<script lang="ts">
+import { defineComponent } from 'vue';
+import HelloWorld from './components/HelloWorld.vue';
 
-export default {
+export default defineComponent({
   name: 'App',
   components: {
-    BasicTeleport,
-    EventValidator,
-    TestWindow
-  },
-  data() {
-    return {
-      name: 'Tony Stark',
-      id: 123,
-      inventory: [],
-      abilities: {},
-      showTeleport: true
-    }
-  },
-  computed: {
-    firstName() {
-      return this.name.split(' ')[0]
-    }
-  },
-  methods: {
-    changeName() {
-      this.name = 'Tony Stark'
-    }
+    HelloWorld
   }
-}
+});
 </script>
 
 <style>
