@@ -1,14 +1,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
-type Period = 'Today' | 'This Week' | 'This Month'
+type Timeframe = 'Today' | 'This Week' | 'This Month'
 
 export default defineComponent({
   setup() {
-    const timeframes: Period[] = ['Today', 'This Week', 'This Month']
-    const selectedTimeframe = ref<Period>('Today')
+    const timeframes: Timeframe[] = ['Today', 'This Week', 'This Month']
+    const selectedTimeframe = ref<Timeframe>('Today')
 
-    const setTimeframe = (timeframe: Period) => {
+    const setTimeframe = (timeframe: Timeframe) => {
       selectedTimeframe.value = timeframe
     }
 
