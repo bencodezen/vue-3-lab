@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <h1>Hello!</h1>
-    <CardShuffle />
+    <Congratulations />
   </div>
 </template>
 
 <script>
-import CardShuffle from './components/CardShuffle'
+import Congratulations from './components/Congratulations'
 
 export default {
   name: 'App',
   components: {
-    CardShuffle
+    Congratulations
   },
   data() {
     return {
