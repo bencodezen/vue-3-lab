@@ -30,4 +30,12 @@ describe('Timeline', () => {
     await $today.trigger('click')
     expect($pageHeading.text()).toContain('Today')
   })
+
+  it('renders today post by default', () => {
+    const wrapper = mount(Timeline)
+
+    const $posts = wrapper.findAll('.post')
+
+    expect($posts).toHaveLength(1)
+  })
 })
