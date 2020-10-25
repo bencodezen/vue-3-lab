@@ -1,24 +1,17 @@
 <template>
   <div id="app">
     <h1>Hello!</h1>
-    <EventValidator />
-    <BasicTeleport />
-    <TestWindow />
-    <button @click="showTeleport = !showTeleport">Toggle Teleport</button>
+    <CardShuffle />
   </div>
 </template>
 
 <script>
-import TestWindow from './components/TestWindow'
-import BasicTeleport from './components/BasicTeleport'
-import EventValidator from './components/EventValidator'
+import CardShuffle from './components/CardShuffle'
 
 export default {
   name: 'App',
   components: {
-    BasicTeleport,
-    EventValidator,
-    TestWindow
+    CardShuffle
   },
   data() {
     return {
