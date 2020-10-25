@@ -2,8 +2,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import { posts } from '../data/mockDatabase'
 import TimelinePost from './TimelinePost.vue'
-
-type Timeframe = 'Today' | 'This Week' | 'This Month'
+import { Timeframe } from '../types'
 
 export default defineComponent({
   components: {
