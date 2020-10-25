@@ -41,16 +41,11 @@ export default defineComponent({
       {{ timeframe }}
     </button>
     <h2>Posts</h2>
-    <TimelinePost />
-    <div
+    <TimelinePost
       v-for="(post, index) in filteredPosts"
       :key="`post-${index}`"
-      class="post"
-    >
-      <h3>{{ post.title }}</h3>
-      <p>{{ post.created.format('MMM Do, YYYY') }}</p>
-      <div v-html="post.html" />
-    </div>
+      :post="post"
+    />
   </nav>
 </template>
 
