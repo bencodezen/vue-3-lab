@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <h1>Hello!</h1>
-    <Congratulations />
+    <TodoMVC />
   </div>
 </template>
 
 <script>
-import Congratulations from './components/Congratulations'
+import TodoMVC from './components/TodoMVC'
 
 export default {
   name: 'App',
   components: {
-    Congratulations
+    TodoMVC
   },
   data() {
     return {
