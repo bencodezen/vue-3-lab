@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue.js 3 CDN - Counter Demo</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #41b883;
+        font-family: 'Kanit', sans-serif;
+      }
+
+      .button {
+        background-color: transparent;
+        color: #fff;
+        padding: 1rem;
+        border: 0;
+      }
+
+      .count-box {
+        color: white;
+        font-weight: bold;
+        font-size: 8rem;
+        background-color: #34495e;
+        border-radius: 50px;
+        width: 200px;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 3rem 0;
+      }
+
+      .count-box p {
+        margin: 0;
+        padding-bottom: 10px;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+
+      .wrapper {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="sr-only">Vue.js 3 CDN - Counter Demo</h1>
+    <div class="wrapper" id="app">
+      <button class="button" @click="incrementCount">
+        <img src="./caret-up.png" alt="" />
+      </button>
+      <div class="count-box">
+        <p>{{ currentCount }}</p>
+      </div>
+      <button class="button" @click="decrementCount">
+        <img src="./caret-down.png" alt="" />
+      </button>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+      const App = {
+        data: () => ({
+          currentCount: 0
+        }),
+        methods: {
+          incrementCount() {
+            this.currentCount += 1
+          },
+          decrementCount() {
+            this.currentCount -= 1
+          }
+        }
+      }
+
+      Vue.createApp(App).mount('#app')
+    </script>
+  </body>
+</html>
