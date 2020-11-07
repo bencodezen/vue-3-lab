@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { todayPost, monthPost, weekPost } from './data/mockDatabase'
 import router from './router'
+import 'highlight.js/styles/solarized-dark.css'
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
 

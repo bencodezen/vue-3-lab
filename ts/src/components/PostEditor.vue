@@ -1,6 +1,7 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref, watchEffect } from 'vue'
-import { parse } from 'marked'
+import { defineComponent, onMounted, ref, watch } from 'vue'
+import { parse, MarkedOptions } from 'marked'
+import { highlightAuto } from 'highlight.js'
 import { Post } from '../types'
 
 export default defineComponent({
@@ -16,15 +17,30 @@ export default defineComponent({
     const markdownContent = ref(props.post.markdown)
     const htmlContent = ref('')
 
+    const options: MarkedOptions = {
+      highlight: (code: string) => {
+        return highlightAuto(code).value
+      }
+    }
+
     const updateMarkdownContent = () => {
       markdownContent.value = elMarkdownContent.value
         ? elMarkdownContent.value?.innerText
         : props.post.markdown
     }
 
-    watchEffect(() => {
-      htmlContent.value = parse(markdownContent.value)
-    })
+    watch(
+      () => markdownContent.value,
+      () => {
+        parse(markdownContent.value, options, (err, res) => {
+          if (err) {
+            return
+          }
+          htmlContent.value = res
+        })
+      },
+      { immediate: true }
+    )
 
     onMounted(() => {
       if (elMarkdownContent.value) {
