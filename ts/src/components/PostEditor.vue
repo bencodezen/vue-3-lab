@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, watchEffect } from 'vue'
+import { parse } from 'marked'
 import { Post } from '../types'
 
 export default defineComponent({
@@ -13,12 +14,17 @@ export default defineComponent({
     const title = ref(props.post.title)
     const elMarkdownContent = ref<null | HTMLDivElement>(null)
     const markdownContent = ref(props.post.markdown)
+    const htmlContent = ref('')
 
     const updateMarkdownContent = () => {
       markdownContent.value = elMarkdownContent.value
         ? elMarkdownContent.value?.innerText
         : props.post.markdown
     }
+
+    watchEffect(() => {
+      htmlContent.value = parse(markdownContent.value)
+    })
 
     onMounted(() => {
       if (elMarkdownContent.value) {
@@ -28,6 +34,7 @@ export default defineComponent({
 
     return {
       elMarkdownContent,
+      htmlContent,
       markdownContent,
       title,
       updateMarkdownContent
@@ -47,7 +54,7 @@ export default defineComponent({
     ref="elMarkdownContent"
     @input="updateMarkdownContent"
   />
-  <p>{{ markdownContent }}</p>
+  <div v-html="htmlContent" />
 </template>
 
 <style></style>

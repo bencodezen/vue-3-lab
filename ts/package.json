@@ -9,8 +9,10 @@
     "test": "yarn jest"
   },
   "dependencies": {
+    "@types/marked": "^1.1.0",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
+    "marked": "^1.2.3",
     "vue": "^3.0.0-0",
     "vue-router": "^4.0.0-0"
   },
