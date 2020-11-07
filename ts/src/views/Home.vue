@@ -1,14 +1,26 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <img alt="Vue logo" src="../assets/logo.png" />
+    <Suspense>
+      <template v-slot:default>
+        <Timeline />
+      </template>
+      <template v-slot:fallback>
+        Loading...
+      </template>
+    </Suspense>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import Timeline from '@/components/Timeline.vue'
 
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+  components: {
+    Timeline
+  }
 })
 </script>
 
