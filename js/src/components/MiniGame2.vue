@@ -1,18 +1,38 @@
 <script>
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs, watchEffect } from 'vue'
 
 export default defineComponent({
-  setup() {
+  setup(props, ctx) {
     const state = reactive({
       gameStatus: 'In Progress',
-      userSequence: []
+      userSequence: [],
+      trackValidation: [false, false, false]
     })
 
+    const correctSequence = ['blue', 'green', 'red']
     const colorOptions = ['red', 'blue', 'green']
 
     const addColorToSequence = color => {
       state.userSequence.push(color)
     }
+
+    const checkColorSequence = () => {
+      for (let i = 0; i < state.userSequence.length; i++) {
+        state.trackValidation[i] = state.userSequence[i] === correctSequence[i]
+      }
+
+      if (state.trackValidation.findIndex(item => item === false) === -1) {
+        ctx.emit('mini-game-won')
+      }
+
+      state.userSequence = []
+    }
+
+    watchEffect(() => {
+      if (state.userSequence.length === 3) {
+        checkColorSequence()
+      }
+    })
 
     return {
       ...toRefs(state),
@@ -26,6 +46,7 @@ export default defineComponent({
 <template>
   <section class="mini-game">
     <h1>MiniGame 2</h1>
+    <p>{{ trackValidation }}</p>
     <p>{{ gameStatus }}</p>
     <p>User Sequence: {{ userSequence }}</p>
     <div class="color-swatch-wrapper">
