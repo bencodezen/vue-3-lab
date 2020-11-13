@@ -11,12 +11,22 @@ export default {
       gameStatus: 'Not Started'
     })
 
+    const user = reactive({
+      miniGamesWon: 0
+    })
+
     const startGame = () => {
       state.gameStatus = 'Game Started'
     }
 
+    const updateUserMiniGame = () => {
+      user.miniGamesWon++
+    }
+
     return {
       ...toRefs(state),
+      ...toRefs(user),
+      updateUserMiniGame,
       startGame
     }
   }
@@ -26,9 +36,12 @@ export default {
 <template>
   <div>
     <h1>Space Game</h1>
-    <p><b>Game Status:</b> {{ gameStatus }}</p>
+    <h2>Game Status</h2>
+    <p>{{ gameStatus }}</p>
+    <h2>User Properties</h2>
+    <p>Mini-Games Won: {{ miniGamesWon }}</p>
     <div class="game-stage">
-      <MiniGame />
+      <MiniGame @mini-game-won="updateUserMiniGame" />
       <div
         class="panel"
         :class="gameStatus === 'Game Started' ? 'is-hidden' : ''"

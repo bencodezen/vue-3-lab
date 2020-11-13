@@ -1,8 +1,8 @@
 <script>
-import { reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue'
 
-export default {
-  setup() {
+export default defineComponent({
+  setup(props, ctx) {
     const state = reactive({
       gameStatus: 'In Progress',
       correctPassword: '1234',
@@ -12,6 +12,7 @@ export default {
     const checkPassword = () => {
       if (state.correctPassword === state.passwordInput) {
         state.gameStatus = 'Player Wins!'
+        ctx.emit('mini-game-won')
       } else {
         state.gameStatus = 'Wrong password!'
       }
@@ -22,7 +23,7 @@ export default {
       checkPassword
     }
   }
-}
+})
 </script>
 
 <template>
