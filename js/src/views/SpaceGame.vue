@@ -1,7 +1,11 @@
 <script>
 import { reactive, toRefs } from 'vue'
+import MiniGame from '../components/MiniGame'
 
 export default {
+  components: {
+    MiniGame
+  },
   setup() {
     const state = reactive({
       gameStatus: 'Not Started'
@@ -24,6 +28,7 @@ export default {
     <h1>Space Game</h1>
     <p><b>Game Status:</b> {{ gameStatus }}</p>
     <div class="game-stage">
+      <MiniGame />
       <div
         class="panel"
         :class="gameStatus === 'Game Started' ? 'is-hidden' : ''"
@@ -38,6 +43,10 @@ export default {
 .game-stage {
   border: 5px solid black;
   height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .panel {
@@ -52,6 +61,7 @@ export default {
   transform: translateY(100%);
   opacity: 1;
   transition: transform 0.5s ease-in, opacity 0.5s ease-in;
+  position: absolute;
 }
 
 .panel.is-hidden {
