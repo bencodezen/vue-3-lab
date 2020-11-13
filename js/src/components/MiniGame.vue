@@ -1,11 +1,13 @@
 <script>
-import { defineComponent, reactive, toRefs } from 'vue'
+import { computed, defineComponent, reactive, toRefs } from 'vue'
 
 export default defineComponent({
   setup(props, ctx) {
     const state = reactive({
       gameStatus: 'In Progress',
-      correctPassword: '1234',
+      correctPassword: computed(() => {
+        return Math.floor(Math.random(0, 1) * 1000).toString()
+      }),
       passwordInput: 'wrong'
     })
 
@@ -30,7 +32,6 @@ export default defineComponent({
   <section class="mini-game">
     <h1>MiniGame</h1>
     <p>{{ gameStatus }}</p>
-    <p>Password Input: {{ passwordInput }}</p>
     <p class="post-it">Secret Password: {{ correctPassword }}</p>
     <label for="enter-password">Enter Password</label>
     <input
