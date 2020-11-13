@@ -1,10 +1,12 @@
 <script>
 import { reactive, toRefs } from 'vue'
 import MiniGame from '../components/MiniGame'
+import MiniGame2 from '../components/MiniGame2'
 
 export default {
   components: {
-    MiniGame
+    MiniGame,
+    MiniGame2
   },
   setup() {
     const state = reactive({
@@ -41,7 +43,10 @@ export default {
     <h2>User Properties</h2>
     <p>Mini-Games Won: {{ miniGamesWon }}</p>
     <div class="game-stage">
-      <MiniGame @mini-game-won="updateUserMiniGame" />
+      <div class="mini-game-wrapper">
+        <MiniGame @mini-game-won="updateUserMiniGame" />
+        <MiniGame2 @mini-game-won="updateUserMiniGame" />
+      </div>
       <div
         class="panel"
         :class="gameStatus === 'Game Started' ? 'is-hidden' : ''"
@@ -53,6 +58,10 @@ export default {
 </template>
 
 <style>
+.mini-game-wrapper {
+  display: flex;
+}
+
 .game-stage {
   border: 5px solid black;
   height: 500px;
