@@ -20,14 +20,26 @@ export default {
 </script>
 
 <template>
-  <h1>Space Game</h1>
-  <p><b>Game Status:</b> {{ gameStatus }}</p>
-  <div class="panel">
-    <button class="panel-button" @click="startGame">Start Game</button>
+  <div>
+    <h1>Space Game</h1>
+    <p><b>Game Status:</b> {{ gameStatus }}</p>
+    <div class="game-stage">
+      <div
+        class="panel"
+        :class="gameStatus === 'Game Started' ? 'is-hidden' : ''"
+      >
+        <button class="panel-button" @click="startGame">Start Game</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <style>
+.game-stage {
+  border: 5px solid black;
+  height: 500px;
+}
+
 .panel {
   border: 2px solid black;
   width: 200px;
@@ -36,6 +48,15 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: white;
+  transform: translateY(100%);
+  opacity: 1;
+  transition: transform 0.5s ease-in, opacity 0.5s ease-in;
+}
+
+.panel.is-hidden {
+  transform: translateY(140%);
+  opacity: 0;
 }
 
 .panel-button {
