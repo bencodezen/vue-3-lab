@@ -6,7 +6,7 @@ export default defineComponent({
     const state = reactive({
       gameStatus: 'In Progress',
       correctPassword: computed(() => {
-        return Math.floor(Math.random(0, 1) * 1000).toString()
+        return Math.floor(Math.random() * 1000000 + 1000).toString()
       }),
       passwordInput: 'wrong'
     })
