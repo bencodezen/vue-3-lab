@@ -21,6 +21,12 @@ const routes = [
     name: 'Panel',
     component: () =>
       import(/* webpackChunkName: "panel" */ '../views/Panel.vue')
+  },
+  {
+    path: '/space-game',
+    name: 'SpaceGame',
+    component: () =>
+      import(/* webpackChunkName: "spaceGame" */ '../views/SpaceGame.vue')
   }
 ]
 

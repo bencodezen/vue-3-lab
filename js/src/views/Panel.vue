@@ -5,8 +5,8 @@ export default {
   setup() {
     const state = reactive({
       translate: 0,
-      rotate: 40,
-      perspective: 500
+      rotate: 50,
+      perspective: 200
     })
     const movePanels = () => {
       state.translate = 530
@@ -44,14 +44,14 @@ export default {
   border: 2px solid palegreen;
   padding: 50px;
   display: grid;
-  grid-template-columns: repeat(3, 500px);
+  grid-template-columns: repeat(3, 150px);
   grid-column-gap: 30px;
 }
 
 .screen {
   background-color: black;
-  width: 500px;
-  height: 200px;
+  width: 150px;
+  height: 75px;
   transform: perspective(500px);
   transition: transform 1s ease-in;
 }
