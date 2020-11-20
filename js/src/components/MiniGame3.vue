@@ -1,8 +1,11 @@
 <script>
 import { defineComponent, reactive, toRefs, watch } from 'vue'
+import { useMousePosition } from '../features/useMousePosition.js'
 
 export default defineComponent({
   setup(props, ctx) {
+    const { mousePosition, registerPosition } = useMousePosition()
+
     const state = reactive({
       userWires: ['red', 'cyan', 'limegreen', 'yellow'],
       correctWires: ['limegreen', 'cyan', 'yellow', 'red'],
@@ -43,15 +46,22 @@ export default defineComponent({
       ...toRefs(state),
       checkWireColors,
       registerMatchColor,
-      registerWireColor
+      registerWireColor,
+      mousePosition,
+      registerPosition
     }
   }
 })
 </script>
 
 <template>
-  <section :class="$style['mini-game']">
+  <section
+    :class="$style['mini-game']"
+    id="mini-game-3"
+    @mousemove="registerPosition"
+  >
     <h1>MiniGame 3</h1>
+    <p>{{ mousePosition }}</p>
     <p>{{ userSelection }}</p>
     <p>{{ matchStatus }}</p>
     <div :class="$style.wireboard">
