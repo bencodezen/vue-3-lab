@@ -2,11 +2,13 @@
 import { reactive, toRefs } from 'vue'
 import MiniGame from '../components/MiniGame'
 import MiniGame2 from '../components/MiniGame2'
+import MiniGame3 from '../components/MiniGame3'
 
 export default {
   components: {
     MiniGame,
-    MiniGame2
+    MiniGame2,
+    MiniGame3
   },
   setup() {
     const state = reactive({
@@ -37,15 +39,16 @@ export default {
 
 <template>
   <div>
-    <h1>Space Game</h1>
+    <!-- <h1>Space Game</h1>
     <h2>Game Status</h2>
     <p>{{ gameStatus }}</p>
-    <h2>User Properties</h2>
+    <h2>User Properties</h2> -->
     <p>Mini-Games Won: {{ miniGamesWon }}</p>
     <div class="game-stage">
       <div class="mini-game-wrapper">
-        <MiniGame @mini-game-won="updateUserMiniGame" />
-        <MiniGame2 @mini-game-won="updateUserMiniGame" />
+        <MiniGame v-if="false" @mini-game-won="updateUserMiniGame" />
+        <MiniGame2 v-if="false" @mini-game-won="updateUserMiniGame" />
+        <MiniGame3 />
       </div>
       <div
         class="panel"
