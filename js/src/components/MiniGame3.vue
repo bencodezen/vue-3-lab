@@ -1,16 +1,35 @@
 <script>
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs, watch } from 'vue'
 
 export default defineComponent({
-  setup() {
+  setup(props, ctx) {
     const state = reactive({
       userWires: ['red', 'blue', 'green', 'yellow'],
       correctWires: ['green', 'blue', 'yellow', 'red'],
+      matchStatus: [false, false, false, false],
       userSelection: {
         selectedWire: 'black',
         matchedWire: 'white'
       }
     })
+
+    watch(state.matchStatus, currentValue => {
+      if (!currentValue.includes(false)) {
+        ctx.emit('mini-game-won')
+      }
+    })
+
+    const checkWireColors = () => {
+      const { selectedWire, matchedWire } = toRefs(state.userSelection)
+
+      if (selectedWire.value === matchedWire.value) {
+        const selectedIndex = state.userWires.findIndex(
+          wireColor => wireColor === selectedWire.value
+        )
+
+        state.matchStatus[selectedIndex] = true
+      }
+    }
 
     const registerMatchColor = colorName => {
       state.userSelection.matchedWire = colorName
@@ -22,6 +41,7 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
+      checkWireColors,
       registerMatchColor,
       registerWireColor
     }
@@ -33,6 +53,7 @@ export default defineComponent({
   <section :class="$style['mini-game']">
     <h1>MiniGame 3</h1>
     <p>{{ userSelection }}</p>
+    <p>{{ matchStatus }}</p>
     <div :class="$style.wireboard">
       <div :class="$style.panel">
         <ul>
@@ -51,6 +72,7 @@ export default defineComponent({
             v-for="wireColor in correctWires"
             :key="`user-${wireColor}`"
             @mouseenter="registerMatchColor(wireColor)"
+            @mouseup="checkWireColors"
           >
             {{ wireColor }}
           </li>
