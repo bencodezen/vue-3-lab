@@ -4,8 +4,8 @@ import { defineComponent, reactive, toRefs, watch } from 'vue'
 export default defineComponent({
   setup(props, ctx) {
     const state = reactive({
-      userWires: ['red', 'blue', 'green', 'yellow'],
-      correctWires: ['green', 'blue', 'yellow', 'red'],
+      userWires: ['red', 'cyan', 'limegreen', 'yellow'],
+      correctWires: ['limegreen', 'cyan', 'yellow', 'red'],
       matchStatus: [false, false, false, false],
       userSelection: {
         selectedWire: 'black',
@@ -61,6 +61,7 @@ export default defineComponent({
             v-for="wireColor in userWires"
             :key="`user-${wireColor}`"
             @mousedown="registerWireColor(wireColor)"
+            :style="`background-color: ${wireColor}`"
           >
             {{ wireColor }}
           </li>
@@ -71,6 +72,7 @@ export default defineComponent({
           <li
             v-for="wireColor in correctWires"
             :key="`user-${wireColor}`"
+            :style="`background-color: ${wireColor}`"
             @mouseenter="registerMatchColor(wireColor)"
             @mouseup="checkWireColors"
           >

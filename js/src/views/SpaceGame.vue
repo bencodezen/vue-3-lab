@@ -48,7 +48,7 @@ export default {
       <div class="mini-game-wrapper">
         <MiniGame v-if="false" @mini-game-won="updateUserMiniGame" />
         <MiniGame2 v-if="false" @mini-game-won="updateUserMiniGame" />
-        <MiniGame3 />
+        <MiniGame3 @mini-game-won="updateUserMiniGame" />
       </div>
       <div
         class="panel"
