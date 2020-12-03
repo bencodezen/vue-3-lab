@@ -1,11 +1,15 @@
 <script>
-import { reactive } from 'vue'
+import { reactive, toRefs } from 'vue'
 
 export default {
   setup() {
     const state = reactive({
       list: [1, 2, 3]
     })
+
+    return {
+      ...toRefs(state)
+    }
   }
 }
 </script>
@@ -14,7 +18,6 @@ export default {
   <ul>
     <li v-for="item in list" :key="item">
       <p>{{ item }}</p>
-      <input type="text" v-model="item" />
     </li>
   </ul>
 </template>
