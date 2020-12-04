@@ -84,6 +84,14 @@ export default defineComponent({
 
       <div :class="$style.panel">
         <ul>
+          <li v-for="matchItem in matchStatus" :key="`user-${matchItem}`">
+            {{ matchItem }}
+          </li>
+        </ul>
+      </div>
+
+      <div :class="$style.panel">
+        <ul>
           <li
             v-for="wireColor in correctWires"
             :key="`user-${wireColor}`"
