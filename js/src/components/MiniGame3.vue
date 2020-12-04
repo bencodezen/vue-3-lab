@@ -77,6 +77,23 @@ export default defineComponent({
           </li>
         </ul>
       </div>
+      <svg
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        x="0px"
+        y="0px"
+        xml:space="preserve"
+        style="border: 1px solid red; flex: 1;"
+      >
+        <path
+          class="path2"
+          fill="#01a09e"
+          stroke-width="5"
+          stroke="black"
+          :d="`M0 11 L ${mousePosition.x} ${mousePosition.y - 250}`"
+        />
+      </svg>
       <div :class="$style.panel">
         <ul>
           <li
