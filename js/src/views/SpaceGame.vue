@@ -4,6 +4,7 @@ import MiniGame from '../components/MiniGame'
 import MiniGame2 from '../components/MiniGame2'
 import MiniGame3 from '../components/MiniGame3'
 import MiniGameStatus from '../components/MiniGameStatus'
+import { launchConfetti } from '../utils/canvasConfetti'
 
 export default {
   components: {
@@ -21,6 +22,15 @@ export default {
     const user = reactive({
       miniGamesWon: 0
     })
+
+    watch(
+      () => state.gameStatus,
+      currentValue => {
+        if (currentValue === 'Player wins!') {
+          launchConfetti()
+        }
+      }
+    )
 
     watch(
       () => user.miniGamesWon,
