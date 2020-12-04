@@ -1,12 +1,10 @@
 <script>
 import { defineComponent, reactive, toRefs, watch } from 'vue'
 import { useMousePosition } from '../features/useMousePosition.js'
-import { useDrawCanvas } from '../features/useDrawCanvas'
 
 export default defineComponent({
   setup(props, ctx) {
     const { mousePosition, registerPosition } = useMousePosition()
-    const { draw } = useDrawCanvas('#wire-canvas')
 
     const state = reactive({
       userWires: ['red', 'cyan', 'limegreen', 'yellow'],
@@ -50,8 +48,7 @@ export default defineComponent({
       registerMatchColor,
       registerWireColor,
       mousePosition,
-      registerPosition,
-      draw
+      registerPosition
     }
   }
 })
@@ -80,11 +77,6 @@ export default defineComponent({
           </li>
         </ul>
       </div>
-      <canvas
-        id="wire-canvas"
-        :class="$style['wire-canvas-panel']"
-        @click="draw"
-      ></canvas>
       <div :class="$style.panel">
         <ul>
           <li
@@ -112,11 +104,7 @@ export default defineComponent({
 
 .wireboard {
   display: flex;
-}
-
-.wire-canvas-panel {
-  flex: 1;
-  border: 1px solid red;
+  justify-content: space-between;
 }
 
 .panel ul,
