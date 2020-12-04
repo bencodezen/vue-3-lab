@@ -14,7 +14,10 @@ export default {
   methods: {
     fetchBackgroundFunction() {
       axios
-        .post('/.netlify/functions/hello-background', { my: 'payload' })
+        .post('/.netlify/functions/hello-background', {
+          content: 'Hello from Netlify!',
+          destination: 'ben@bencodezen.io'
+        })
         .then(response => {
           console.log(response)
         })
