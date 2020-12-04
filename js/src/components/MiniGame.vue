@@ -20,9 +20,16 @@ export default defineComponent({
       }
     }
 
+    const returnToGameStatus = () => {
+      ctx.emit('select-minigame', {
+        id: ''
+      })
+    }
+
     return {
       ...toRefs(state),
-      checkPassword
+      checkPassword,
+      returnToGameStatus
     }
   }
 })
@@ -41,6 +48,9 @@ export default defineComponent({
       @keyup.enter="checkPassword"
     />
     <button type="submit" @click="checkPassword">Submit</button>
+    <div>
+      <button @click="returnToGameStatus">Back to Game Status</button>
+    </div>
   </section>
 </template>
 

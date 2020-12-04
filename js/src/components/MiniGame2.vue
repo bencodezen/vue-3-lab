@@ -28,6 +28,12 @@ export default defineComponent({
       state.userSequence = []
     }
 
+    const returnToGameStatus = () => {
+      ctx.emit('select-minigame', {
+        id: ''
+      })
+    }
+
     watchEffect(() => {
       if (state.userSequence.length === 3) {
         checkColorSequence()
@@ -37,7 +43,8 @@ export default defineComponent({
     return {
       ...toRefs(state),
       addColorToSequence,
-      colorOptions
+      colorOptions,
+      returnToGameStatus
     }
   }
 })
@@ -60,6 +67,7 @@ export default defineComponent({
         {{ color }}
       </button>
     </div>
+    <button @click="returnToGameStatus">Back to Game Status</button>
   </section>
 </template>
 
