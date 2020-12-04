@@ -1,5 +1,5 @@
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, watch } from 'vue'
 import MiniGame from '../components/MiniGame'
 import MiniGame2 from '../components/MiniGame2'
 import MiniGame3 from '../components/MiniGame3'
@@ -21,6 +21,15 @@ export default {
     const user = reactive({
       miniGamesWon: 0
     })
+
+    watch(
+      () => user.miniGamesWon,
+      currentValue => {
+        if (currentValue === 3) {
+          state.gameStatus = 'Player wins!'
+        }
+      }
+    )
 
     const startGame = () => {
       state.gameStatus = 'Game Started'
