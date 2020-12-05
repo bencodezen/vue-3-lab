@@ -1,4 +1,12 @@
 <script>
+/**
+ * TODO: Minigames won should be by id and as a generic number, which would prevent users from submitting the same result multiple times
+ * TODO: Create a win state for mini-games that disables additional play
+ * TODO: Create components to centralize logic and better UI encapsulation
+ * TODO: There should be an empty state for the user to actually start the game
+ * TODO: Clean up UI pieces
+ */
+
 import { reactive, toRefs, watch } from 'vue'
 import MiniGame from '../components/MiniGame'
 import MiniGame2 from '../components/MiniGame2'
