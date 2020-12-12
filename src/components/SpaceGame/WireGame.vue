@@ -58,10 +58,14 @@ export default {
     }
   },
   watch: {
-    matchStatus(status) {
-      if (!status.includes(false)) {
-        this.$emit('mini-game-won')
-      }
+    matchStatus: {
+      handler(status) {
+        if (!status.includes(false)) {
+          this.$emit('mini-game-won')
+          console.log('wins')
+        }
+      },
+      deep: true
     }
   },
   mounted() {
