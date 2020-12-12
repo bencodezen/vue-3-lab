@@ -1,21 +1,7 @@
 <script>
-/**
- * TODO: Convert to Options API
- * TODO: Determine challenge
- */
-
-import { defineComponent, reactive, toRefs, watch } from 'vue'
-import useMousePosition from '../../features/useMousePosition.js'
-
-export default defineComponent({
-  setup(props, ctx) {
-    const mousePosition = useMousePosition()
-
-    console.log(mousePosition)
-
-    // Find index of correctPosition
-
-    const state = reactive({
+export default {
+  data() {
+    return {
       userWires: [
         {
           label: 'red'
@@ -58,42 +44,57 @@ export default defineComponent({
         y1: 0,
         offsetLeft: 0,
         offsetTop: 0
+      },
+      mousePosition: {
+        x: 0,
+        y: 0
       }
-    })
-
-    watch(state.matchStatus, currentValue => {
-      if (!currentValue.includes(false)) {
-        ctx.emit('mini-game-won')
+    }
+  },
+  watch: {
+    matchStatus(status) {
+      if (!status.includes(false)) {
+        this.$emit('mini-game-won')
       }
-    })
+    }
+  },
+  mounted() {
+    window.addEventListener('mousemove', this.handleMouseMove)
+  },
+  unmounted() {
+    window.removeEventListener('mousemove', this.handleMouseMove)
+  },
+  methods: {
+    handleMouseMove($event) {
+      console.log($event)
+      this.mousePosition.x = $event.x
+      this.mousePosition.y = $event.y
+    },
+    checkWireColors() {
+      const { selectedWire, matchedWire } = this.userSelection
 
-    const checkWireColors = () => {
-      const { selectedWire, matchedWire } = toRefs(state.userSelection)
-
-      if (selectedWire.value === matchedWire.value) {
-        const selectedIndex = state.userWires.findIndex(
-          wire => wire.label === selectedWire.value
+      if (selectedWire === matchedWire) {
+        const selectedIndex = this.userWires.findIndex(
+          wire => wire.label === selectedWire
         )
 
-        state.matchStatus[selectedIndex] = true
-        state.wireLines.push({
-          ...state.drawWire,
-          x2: mousePosition.x.value - state.drawWire.offsetLeft,
-          y2: mousePosition.y.value - state.drawWire.offsetTop
+        this.matchStatus[selectedIndex] = true
+        this.wireLines.push({
+          ...this.drawWire,
+          x2: this.mousePosition.x - this.drawWire.offsetLeft,
+          y2: this.mousePosition.y - this.drawWire.offsetTop
         })
       }
 
-      state.drawWire.display = false
-    }
+      this.drawWire.display = false
+    },
+    registerMatchColor(wire) {
+      this.userSelection.matchedWire = wire.label
+    },
+    registerWireColor($event, wire) {
+      this.userSelection.selectedWire = wire.label
 
-    const registerMatchColor = wire => {
-      state.userSelection.matchedWire = wire.label
-    }
-
-    const registerWireColor = ($event, wire) => {
-      state.userSelection.selectedWire = wire.label
-
-      const wireIndex = state.userWires.findIndex(userWire => userWire === wire)
+      const wireIndex = this.userWires.findIndex(userWire => userWire === wire)
       const itemOffsetLeft = $event.target.offsetLeft
       const parentOffsetLeft = $event.target.offsetParent.offsetLeft
       const itemWidth = $event.target.clientWidth
@@ -103,7 +104,7 @@ export default defineComponent({
       const offsetLeft = itemOffsetLeft + parentOffsetLeft + itemWidth
       const offsetTop = itemOffsetTop + parentOffsetTop - 20 * wireIndex
 
-      state.drawWire = {
+      this.drawWire = {
         display: true,
         label: wire.label,
         stroke: wire.label,
@@ -112,32 +113,19 @@ export default defineComponent({
         offsetLeft: offsetLeft,
         offsetTop: offsetTop
       }
-    }
-
-    const returnToGameStatus = () => {
-      ctx.emit('select-minigame', {
+    },
+    returnToGameStatus() {
+      this.$emit('select-minigame', {
         id: ''
       })
-    }
-
-    return {
-      ...toRefs(state),
-      checkWireColors,
-      registerMatchColor,
-      registerWireColor,
-      mousePosition,
-      returnToGameStatus
-    }
-  },
-  methods: {
+    },
     findCorrectWire(wire) {
       return this.correctWires.findIndex(
         correctWire => correctWire.label === wire.label
       )
     }
-  },
-  mounted() {}
-})
+  }
+}
 </script>
 
 <template>
@@ -167,8 +155,8 @@ export default defineComponent({
             :class="$style.line"
             :x1="drawWire.x1"
             :y1="drawWire.y1"
-            :x2="mousePosition.x.value - drawWire.offsetLeft"
-            :y2="mousePosition.y.value - drawWire.offsetTop"
+            :x2="mousePosition.x - drawWire.offsetLeft"
+            :y2="mousePosition.y - drawWire.offsetTop"
             :stroke="drawWire.stroke"
           />
           <line
