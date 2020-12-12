@@ -40,7 +40,7 @@ export default {
   setup() {
     const state = reactive({
       gameStatus: 'Not Started',
-      selectedGame: 'Tests'
+      selectedGame: 'None'
     })
 
     const user = reactive({
