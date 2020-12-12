@@ -15,7 +15,7 @@ export default {
     checkPassword() {
       if (this.correctPassword === this.passwordInput) {
         this.gameStatus = 'Player Wins!'
-        this.$emit('mini-game-won')
+        this.$emit('mini-game-won', 'password-game')
       } else {
         this.gameStatus = 'Wrong password!'
       }

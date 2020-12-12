@@ -61,8 +61,7 @@ export default {
     matchStatus: {
       handler(status) {
         if (!status.includes(false)) {
-          this.$emit('mini-game-won')
-          console.log('wins')
+          this.$emit('mini-game-won', 'wire-game')
         }
       },
       deep: true

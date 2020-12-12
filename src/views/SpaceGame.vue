@@ -6,7 +6,6 @@
  * TODO: Clean up UI pieces
  */
 
-import { reactive, toRefs, watch } from 'vue'
 import MiniGame from '../components/SpaceGame/MiniGame.vue'
 import PasswordGame from '../components/SpaceGame/PasswordGame.vue'
 import SequenceGame from '../components/SpaceGame/SequenceGame.vue'
@@ -21,6 +20,7 @@ export default {
     PasswordGame
   },
   data: () => ({
+    activeScreen: 'Not Started',
     minigames: [
       {
         id: 'password-game',
@@ -36,51 +36,32 @@ export default {
       }
     ]
   }),
-  setup() {
-    const state = reactive({
-      activeScreen: 'Not Started'
-    })
+  computed: {
+    gameComplete() {
+      return this.minigames.reduce(
+        (accumulator, currentValue) => accumulator && currentValue.complete,
+        true
+      )
+    }
+  },
+  methods: {
+    updateMiniGame(id) {
+      const minigame = this.minigames.find(minigame => minigame.id === id)
 
-    const user = reactive({
-      miniGamesWon: 0
-    })
-
-    watch(
-      () => state.activeScreen,
-      currentValue => {
-        if (currentValue === 'Player wins!') {
-          launchConfetti()
-        }
+      minigame.complete = true
+    },
+    startGame() {
+      this.activeScreen = 'Game Started'
+    },
+    registerSelection(gameId) {
+      this.activeScreen = gameId
+    }
+  },
+  watch: {
+    gameComplete(status) {
+      if (status) {
+        launchConfetti()
       }
-    )
-
-    watch(
-      () => user.miniGamesWon,
-      currentValue => {
-        if (currentValue === 3) {
-          state.activeScreen = 'Player wins!'
-        }
-      }
-    )
-
-    const startGame = () => {
-      state.activeScreen = 'Game Started'
-    }
-
-    const registerSelection = gameId => {
-      state.activeScreen = gameId
-    }
-
-    const updateUserMiniGame = () => {
-      user.miniGamesWon++
-    }
-
-    return {
-      ...toRefs(state),
-      ...toRefs(user),
-      registerSelection,
-      updateUserMiniGame,
-      startGame
     }
   }
 }
@@ -89,7 +70,6 @@ export default {
 <template>
   <div>
     <h1>Space Game</h1>
-    <p>{{ miniGamesWon }}</p>
     <div class="game-stage">
       <div class="mini-game-wrapper">
         <div v-if="activeScreen === 'Not Started'">
@@ -104,7 +84,7 @@ export default {
               :key="minigame.id"
               @click="registerSelection(minigame.id)"
             >
-              {{ minigame.id }}
+              {{ minigame.id }} - {{ minigame.complete }}
             </li>
           </ul>
         </div>
@@ -113,7 +93,7 @@ export default {
           @select-screen="registerSelection"
           :gameId="activeScreen"
         >
-          <component :is="activeScreen" @mini-game-won="updateUserMiniGame" />
+          <component :is="activeScreen" @mini-game-won="updateMiniGame" />
         </MiniGame>
       </div>
       <div

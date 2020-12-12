@@ -32,7 +32,7 @@ export default {
       this.displayValidation = true
 
       if (this.userWins) {
-        this.$emit('mini-game-won')
+        this.$emit('mini-game-won', 'sequence-game')
       } else {
         setTimeout(() => {
           this.userSequence = []
