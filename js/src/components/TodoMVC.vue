@@ -6,6 +6,11 @@ export default {
       userInput: ''
     }
   },
+  computed: {
+    filteredList() {
+      return this.taskList.filter(item => item.description.indexOf('Milk') > -1)
+    }
+  },
   methods: {
     addTask(event) {
       if (event.key === 'Enter') {
@@ -29,11 +34,15 @@ export default {
     @keyup="addTask"
   />
   <p>X items left</p>
-  {{ taskList }}
+  <p>{{ taskList }}</p>
+  <p>{{ filteredList }}</p>
+
   <h2>All Tasks</h2>
   <ul class="task-list">
-    <li v-for="(task, index) in taskList" :key="`task-${index}`">
+    <li v-for="(task, index) in filteredList" :key="`task-${index}`">
       <input type="checkbox" v-model="task.complete" />{{ task.description }}
+      <button>Edit</button>
+      <input type="text" v-model="task.description" />
     </li>
   </ul>
   <h2>Active Tasks</h2>
