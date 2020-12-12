@@ -1,6 +1,19 @@
 <script>
+import startCase from 'lodash/startCase'
+
 export default {
+  props: {
+    gameId: {
+      type: String,
+      required: true
+    }
+  },
   emits: ['select-screen'],
+  computed: {
+    gameTitle() {
+      return startCase(this.gameId)
+    }
+  },
   methods: {
     returnToHomeScreen() {
       this.$emit('select-screen', 'Game Started')
@@ -11,6 +24,7 @@ export default {
 
 <template>
   <section class="mini-game">
+    <h1>{{ gameTitle }}</h1>
     <slot />
     <div>
       <button @click="returnToHomeScreen">Back to Game Status</button>

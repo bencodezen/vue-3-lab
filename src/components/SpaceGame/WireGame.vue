@@ -134,7 +134,6 @@ export default {
 
 <template>
   <div>
-    <h1>MiniGame 3</h1>
     <div :class="$style.wireboard">
       <div :class="$style.panel">
         <ul>

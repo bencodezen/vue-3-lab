@@ -108,7 +108,11 @@ export default {
             </li>
           </ul>
         </div>
-        <MiniGame v-else @select-screen="registerSelection">
+        <MiniGame
+          v-else
+          @select-screen="registerSelection"
+          :gameId="activeScreen"
+        >
           <component :is="activeScreen" @mini-game-won="updateUserMiniGame" />
         </MiniGame>
       </div>

@@ -56,7 +56,6 @@ export default {
 
 <template>
   <div>
-    <h1>MiniGame 2</h1>
     <h2>Chosen Sequence</h2>
     <div class="color-swatch-wrapper">
       <div
