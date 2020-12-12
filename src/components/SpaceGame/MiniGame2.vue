@@ -1,61 +1,79 @@
 <script>
-import { defineComponent, reactive, toRefs, watchEffect } from 'vue'
+import shuffle from 'lodash/shuffle'
 
-export default defineComponent({
-  setup(props, ctx) {
-    const state = reactive({
+export default {
+  data() {
+    return {
       gameStatus: 'In Progress',
       userSequence: [],
-      trackValidation: [false, false, false]
-    })
-
-    const correctSequence = ['blue', 'green', 'red']
-    const colorOptions = ['red', 'blue', 'green']
-
-    const addColorToSequence = color => {
-      state.userSequence.push(color)
+      displayValidation: false,
+      trackValidation: [false, false, false],
+      colorOptions: ['red', 'blue', 'green']
     }
-
-    const checkColorSequence = () => {
-      for (let i = 0; i < state.userSequence.length; i++) {
-        state.trackValidation[i] = state.userSequence[i] === correctSequence[i]
+  },
+  computed: {
+    correctSequence() {
+      return shuffle(['blue', 'green', 'red'])
+    },
+    userWins() {
+      return this.trackValidation.findIndex(item => item === false) === -1
+    }
+  },
+  methods: {
+    addColorToSequence(color) {
+      this.userSequence.push(color)
+    },
+    checkColorSequence() {
+      for (let i = 0; i < this.userSequence.length; i++) {
+        this.trackValidation[i] =
+          this.userSequence[i] === this.correctSequence[i]
       }
 
-      if (state.trackValidation.findIndex(item => item === false) === -1) {
-        ctx.emit('mini-game-won')
+      this.displayValidation = true
+
+      if (this.userWins) {
+        this.$emit('mini-game-won')
+      } else {
+        setTimeout(() => {
+          this.userSequence = []
+          this.displayValidation = false
+        }, 3000)
       }
-
-      state.userSequence = []
-    }
-
-    const returnToGameStatus = () => {
-      ctx.emit('select-minigame', {
+    },
+    returnToGameStatus() {
+      this.$emit('select-minigame', {
         id: ''
       })
     }
-
-    watchEffect(() => {
-      if (state.userSequence.length === 3) {
-        checkColorSequence()
-      }
-    })
-
-    return {
-      ...toRefs(state),
-      addColorToSequence,
-      colorOptions,
-      returnToGameStatus
+  },
+  watch: {
+    userSequence: {
+      handler(currentValue) {
+        if (currentValue.length === 3) {
+          this.checkColorSequence()
+        }
+      },
+      deep: true
     }
   }
-})
+}
 </script>
 
 <template>
   <section class="mini-game">
     <h1>MiniGame 2</h1>
-    <p>{{ trackValidation }}</p>
-    <p>{{ gameStatus }}</p>
-    <p>User Sequence: {{ userSequence }}</p>
+    <h2>Chosen Sequence</h2>
+    <div class="color-swatch-wrapper">
+      <div
+        v-for="(color, index) in userSequence"
+        :key="`color-${index}`"
+        class="color-swatch"
+        :style="`background-color: ${color};`"
+      >
+        {{ displayValidation ? trackValidation[index] : color }}
+      </div>
+    </div>
+    <h2>Inputs</h2>
     <div class="color-swatch-wrapper">
       <button
         v-for="(color, index) in colorOptions"
@@ -86,6 +104,7 @@ export default defineComponent({
 }
 
 .color-swatch {
+  border: 2px solid black;
   padding: 1rem;
   color: white;
   font-weight: bold;
