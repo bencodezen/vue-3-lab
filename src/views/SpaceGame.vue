@@ -8,10 +8,10 @@
  */
 
 import { reactive, toRefs, watch } from 'vue'
-import MiniGame from '../components/MiniGame'
-import MiniGame2 from '../components/MiniGame2'
-import MiniGame3 from '../components/MiniGame3'
-import MiniGameStatus from '../components/MiniGameStatus'
+import MiniGame from '../components/SpaceGame/MiniGame.vue'
+import MiniGame2 from '../components/SpaceGame/MiniGame2.vue'
+import MiniGame3 from '../components/SpaceGame/MiniGame3.vue'
+import MiniGameStatus from '../components/SpaceGame/MiniGameStatus.vue'
 import { launchConfetti } from '../utils/canvasConfetti'
 
 export default {

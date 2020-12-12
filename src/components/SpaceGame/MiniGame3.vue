@@ -1,6 +1,6 @@
 <script>
 import { defineComponent, reactive, toRefs, watch } from 'vue'
-import { useMousePosition } from '../features/useMousePosition.js'
+import { useMousePosition } from '../../features/useMousePosition.js'
 
 export default defineComponent({
   setup(props, ctx) {
