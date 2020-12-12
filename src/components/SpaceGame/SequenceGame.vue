@@ -39,11 +39,6 @@ export default {
           this.displayValidation = false
         }, 3000)
       }
-    },
-    returnToGameStatus() {
-      this.$emit('select-minigame', {
-        id: ''
-      })
     }
   },
   watch: {
@@ -60,7 +55,7 @@ export default {
 </script>
 
 <template>
-  <section class="mini-game">
+  <div>
     <h1>MiniGame 2</h1>
     <h2>Chosen Sequence</h2>
     <div class="color-swatch-wrapper">
@@ -85,18 +80,10 @@ export default {
         {{ color }}
       </button>
     </div>
-    <button @click="returnToGameStatus">Back to Game Status</button>
-  </section>
+  </div>
 </template>
 
 <style>
-.mini-game {
-  border: 2px solid rgb(14, 162, 162);
-  padding: 2rem;
-  width: 200px;
-  position: relative;
-}
-
 .color-swatch-wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

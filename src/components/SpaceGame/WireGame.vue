@@ -119,11 +119,6 @@ export default {
         offsetTop: offsetTop
       }
     },
-    returnToGameStatus() {
-      this.$emit('select-minigame', {
-        id: ''
-      })
-    },
     findCorrectWire(wire) {
       return this.correctWires.findIndex(
         correctWire => correctWire.label === wire.label
@@ -134,7 +129,7 @@ export default {
 </script>
 
 <template>
-  <section :class="$style['mini-game']" id="mini-game-3">
+  <div>
     <h1>MiniGame 3</h1>
     <div :class="$style.wireboard">
       <div :class="$style.panel">
@@ -191,8 +186,7 @@ export default {
         </ul>
       </div>
     </div>
-    <button @click="returnToGameStatus">Back to Game Status</button>
-  </section>
+  </div>
 </template>
 
 <style module>
@@ -202,13 +196,6 @@ export default {
 
 .line {
   stroke-width: 5px;
-}
-
-.mini-game {
-  border: 2px solid rgb(14, 162, 162);
-  padding: 2rem;
-  width: 400px;
-  position: relative;
 }
 
 .wireboard {

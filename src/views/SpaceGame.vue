@@ -8,39 +8,37 @@
 
 import { reactive, toRefs, watch } from 'vue'
 import MiniGame from '../components/SpaceGame/MiniGame.vue'
-import MiniGame2 from '../components/SpaceGame/MiniGame2.vue'
-import MiniGame3 from '../components/SpaceGame/MiniGame3.vue'
+import PasswordGame from '../components/SpaceGame/PasswordGame.vue'
+import SequenceGame from '../components/SpaceGame/SequenceGame.vue'
+import WireGame from '../components/SpaceGame/WireGame.vue'
 import { launchConfetti } from '../utils/canvasConfetti'
 
 export default {
   components: {
     MiniGame,
-    MiniGame2,
-    MiniGame3
+    SequenceGame,
+    WireGame,
+    PasswordGame
   },
   data: () => ({
     minigames: [
       {
-        id: 'mg-enter-password',
-        label: 'Enter Password',
+        id: 'password-game',
         complete: false
       },
       {
-        id: 'mg-sequence-solver',
-        label: 'Sequence Solver',
+        id: 'sequence-game',
         complete: false
       },
       {
-        id: 'mg-wire-matcher',
-        label: 'Wire Matcher',
+        id: 'wire-game',
         complete: false
       }
     ]
   }),
   setup() {
     const state = reactive({
-      gameStatus: 'Not Started',
-      selectedGame: 'None'
+      activeScreen: 'Not Started'
     })
 
     const user = reactive({
@@ -48,7 +46,7 @@ export default {
     })
 
     watch(
-      () => state.gameStatus,
+      () => state.activeScreen,
       currentValue => {
         if (currentValue === 'Player wins!') {
           launchConfetti()
@@ -60,17 +58,17 @@ export default {
       () => user.miniGamesWon,
       currentValue => {
         if (currentValue === 3) {
-          state.gameStatus = 'Player wins!'
+          state.activeScreen = 'Player wins!'
         }
       }
     )
 
     const startGame = () => {
-      state.gameStatus = 'Game Started'
+      state.activeScreen = 'Game Started'
     }
 
-    const registerSelection = payload => {
-      state.selectedGame = payload.id
+    const registerSelection = gameId => {
+      state.activeScreen = gameId
     }
 
     const updateUserMiniGame = () => {
@@ -91,46 +89,32 @@ export default {
 <template>
   <div>
     <h1>Space Game</h1>
+    <p>{{ miniGamesWon }}</p>
     <div class="game-stage">
       <div class="mini-game-wrapper">
-        <MiniGame
-          v-if="selectedGame === 'mg-enter-password'"
-          @mini-game-won="updateUserMiniGame"
-          @select-minigame="registerSelection"
-        />
-        <MiniGame2
-          v-else-if="selectedGame === 'mg-sequence-solver'"
-          @mini-game-won="updateUserMiniGame"
-          @select-minigame="registerSelection"
-        />
-        <MiniGame3
-          v-else-if="selectedGame === 'mg-wire-matcher'"
-          @mini-game-won="updateUserMiniGame"
-          @select-minigame="registerSelection"
-        />
-        <div v-else>
-          <div v-if="gameStatus === 'Not Started'">
-            <p>Ready to play?</p>
-          </div>
-
-          <div v-else>
-            <h2>Mission</h2>
-            <p>Complete all three mini-games to win!</p>
-            <ul>
-              <li
-                v-for="minigame in minigames"
-                :key="minigame.id"
-                @click="registerSelection(minigame)"
-              >
-                {{ minigame.label }}
-              </li>
-            </ul>
-          </div>
+        <div v-if="activeScreen === 'Not Started'">
+          <p>Ready to play?</p>
         </div>
+        <div v-else-if="activeScreen === 'Game Started'">
+          <h2>Mission</h2>
+          <p>Complete all three mini-games to win!</p>
+          <ul>
+            <li
+              v-for="minigame in minigames"
+              :key="minigame.id"
+              @click="registerSelection(minigame.id)"
+            >
+              {{ minigame.id }}
+            </li>
+          </ul>
+        </div>
+        <MiniGame v-else @select-screen="registerSelection">
+          <component :is="activeScreen" @mini-game-won="updateUserMiniGame" />
+        </MiniGame>
       </div>
       <div
         class="panel"
-        :class="gameStatus === 'Game Started' ? 'is-hidden' : ''"
+        :class="activeScreen === 'Not Started' ? '' : 'is-hidden'"
       >
         <button class="panel-button" @click="startGame">Start Game</button>
       </div>
