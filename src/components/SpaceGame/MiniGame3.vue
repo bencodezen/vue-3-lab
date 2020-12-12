@@ -1,4 +1,9 @@
 <script>
+/**
+ * TODO: Convert to Options API
+ * TODO: Determine challenge
+ */
+
 import { defineComponent, reactive, toRefs, watch } from 'vue'
 import { useMousePosition } from '../../features/useMousePosition.js'
 
@@ -6,9 +11,37 @@ export default defineComponent({
   setup(props, ctx) {
     const { mousePosition, registerPosition } = useMousePosition()
 
+    // Find index of correctPosition
+
     const state = reactive({
-      userWires: ['red', 'cyan', 'limegreen', 'yellow'],
-      correctWires: ['limegreen', 'cyan', 'yellow', 'red'],
+      userWires: [
+        {
+          label: 'red'
+        },
+        {
+          label: 'yellow'
+        },
+        {
+          label: 'limegreen'
+        },
+        {
+          label: 'cyan'
+        }
+      ],
+      correctWires: [
+        {
+          label: 'limegreen'
+        },
+        {
+          label: 'cyan'
+        },
+        {
+          label: 'yellow'
+        },
+        {
+          label: 'red'
+        }
+      ],
       matchStatus: [false, false, false, false],
       userSelection: {
         selectedWire: 'black',
@@ -57,7 +90,15 @@ export default defineComponent({
       registerPosition,
       returnToGameStatus
     }
-  }
+  },
+  methods: {
+    findCorrectWire(wire) {
+      return this.correctWires.findIndex(
+        correctWire => correctWire.label === wire.label
+      )
+    }
+  },
+  mounted() {}
 })
 </script>
 
@@ -68,38 +109,49 @@ export default defineComponent({
     @mousemove="registerPosition"
   >
     <h1>MiniGame 3</h1>
+    <p>{{ userSelection }}</p>
     <div :class="$style.wireboard">
       <div :class="$style.panel">
         <ul>
-          <li
-            v-for="wireColor in userWires"
-            :key="`user-${wireColor}`"
-            @mousedown="registerWireColor(wireColor)"
-            :style="`background-color: ${wireColor};`"
-          >
-            {{ wireColor }}
+          <li v-for="wire in userWires" :key="`user-${wire.label}`">
+            <div
+              @mousedown="registerWireColor(wire.label)"
+              :style="`background-color: ${wire.label};`"
+              :id="`wire-${wire.label}`"
+            >
+              {{ wire.label }}
+            </div>
           </li>
         </ul>
       </div>
 
-      <div :class="$style.panel">
-        <ul>
-          <li v-for="matchItem in matchStatus" :key="`user-${matchItem}`">
-            {{ matchItem }}
-          </li>
-        </ul>
+      <!-- 11, 33, 55 -->
+      <div :class="$style.panel" style="flex: 1;">
+        <svg :class="$style.svg">
+          <line
+            v-for="(wire, index) in userWires"
+            :key="`line-${wire.label}`"
+            :class="$style.line"
+            x1="0"
+            :y1="11 * index + 11 * (index + 1)"
+            x2="1160"
+            :y2="11 * findCorrectWire(wire) + 11 * (findCorrectWire(wire) + 1)"
+            :stroke="wire.label"
+          />
+        </svg>
       </div>
 
       <div :class="$style.panel">
         <ul>
           <li
-            v-for="wireColor in correctWires"
-            :key="`user-${wireColor}`"
-            :style="`background-color: ${wireColor}`"
-            @mouseenter="registerMatchColor(wireColor)"
+            v-for="wire in correctWires"
+            :key="`user-${wire.label}`"
+            :style="`background-color: ${wire.label}`"
+            @mouseenter="registerMatchColor(wire)"
             @mouseup="checkWireColors"
+            :id="`wire-${wire.label}-end`"
           >
-            {{ wireColor }}
+            {{ wire.label }}
           </li>
         </ul>
       </div>
@@ -109,10 +161,18 @@ export default defineComponent({
 </template>
 
 <style module>
+.svg {
+  width: 100%;
+}
+
+.line {
+  stroke-width: 5px;
+}
+
 .mini-game {
   border: 2px solid rgb(14, 162, 162);
   padding: 2rem;
-  width: 400px;
+  width: 1200px;
   position: relative;
 }
 
