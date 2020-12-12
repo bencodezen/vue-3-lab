@@ -1,4 +1,6 @@
 <script>
+import shuffle from 'lodash/shuffle'
+
 export default {
   data() {
     return {
@@ -14,20 +16,6 @@ export default {
         },
         {
           label: 'cyan'
-        }
-      ],
-      correctWires: [
-        {
-          label: 'limegreen'
-        },
-        {
-          label: 'cyan'
-        },
-        {
-          label: 'blue'
-        },
-        {
-          label: 'red'
         }
       ],
       matchStatus: [false, false, false, false],
@@ -51,6 +39,24 @@ export default {
       }
     }
   },
+  computed: {
+    correctWires() {
+      return shuffle([
+        {
+          label: 'limegreen'
+        },
+        {
+          label: 'cyan'
+        },
+        {
+          label: 'blue'
+        },
+        {
+          label: 'red'
+        }
+      ])
+    }
+  },
   watch: {
     matchStatus(status) {
       if (!status.includes(false)) {
@@ -66,7 +72,6 @@ export default {
   },
   methods: {
     handleMouseMove($event) {
-      console.log($event)
       this.mousePosition.x = $event.x
       this.mousePosition.y = $event.y
     },
@@ -146,7 +151,6 @@ export default {
         </ul>
       </div>
 
-      <!-- 11, 33, 55 -->
       <div :class="$style.panel" style="flex: 1;">
         <svg :class="$style.svg">
           <line
@@ -187,7 +191,6 @@ export default {
         </ul>
       </div>
     </div>
-    <p>{{ matchStatus }}</p>
     <button @click="returnToGameStatus">Back to Game Status</button>
   </section>
 </template>
