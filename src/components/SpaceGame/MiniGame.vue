@@ -1,38 +1,32 @@
 <script>
-import { computed, defineComponent, reactive, toRefs } from 'vue'
-
-export default defineComponent({
-  setup(props, ctx) {
-    const state = reactive({
+export default {
+  data() {
+    return {
       gameStatus: 'In Progress',
-      correctPassword: computed(() => {
-        return Math.floor(Math.random() * 1000000 + 1000).toString()
-      }),
-      passwordInput: 'wrong'
-    })
-
-    const checkPassword = () => {
-      if (state.correctPassword === state.passwordInput) {
-        state.gameStatus = 'Player Wins!'
-        ctx.emit('mini-game-won')
-      } else {
-        state.gameStatus = 'Wrong password!'
-      }
+      passwordInput: ''
     }
-
-    const returnToGameStatus = () => {
-      ctx.emit('select-minigame', {
+  },
+  computed: {
+    correctPassword() {
+      return Math.floor(Math.random() * 1000000 + 1000).toString()
+    }
+  },
+  methods: {
+    checkPassword() {
+      if (this.correctPassword === this.passwordInput) {
+        this.gameStatus = 'Player Wins!'
+        this.emit('mini-game-won')
+      } else {
+        this.gameStatus = 'Wrong password!'
+      }
+    },
+    returnToGameStatus() {
+      this.emit('select-minigame', {
         id: ''
       })
     }
-
-    return {
-      ...toRefs(state),
-      checkPassword,
-      returnToGameStatus
-    }
   }
-})
+}
 </script>
 
 <template>
