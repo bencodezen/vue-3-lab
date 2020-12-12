@@ -120,7 +120,7 @@ export default {
               <li
                 v-for="minigame in minigames"
                 :key="minigame.id"
-                @click="sendSelection(minigame)"
+                @click="registerSelection(minigame)"
               >
                 {{ minigame.label }}
               </li>
