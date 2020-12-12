@@ -17,11 +17,10 @@ export default {
 <template>
   <div class="about">
     <div class="creature-cage">
-      <transition name="fade">
+      <transition name="jiggle">
         <h1 v-if="isDragon" class="creature">
           Dragon 🐉
         </h1>
-        <h1 v-else class="creature">Unicorn 🦄</h1>
       </transition>
     </div>
     <button @click="isDragon = !isDragon">Toggle Dragon</button>
@@ -36,20 +35,26 @@ export default {
   height: 86px;
 }
 
-.creature {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+@keyframes jiggle {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(2);
+  }
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
+.creature:hover {
+  animation: jiggle 0.5s;
+  animation-fill-mode: forwards;
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+.jiggle-enter-active {
+  animation: jiggle 1s;
+}
+
+.jiggle-leave-active {
+  animation: jiggle 1s reverse;
 }
 
 a {
