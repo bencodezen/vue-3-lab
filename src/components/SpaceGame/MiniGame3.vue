@@ -5,11 +5,13 @@
  */
 
 import { defineComponent, reactive, toRefs, watch } from 'vue'
-import { useMousePosition } from '../../features/useMousePosition.js'
+import useMousePosition from '../../features/useMousePosition.js'
 
 export default defineComponent({
   setup(props, ctx) {
-    const { mousePosition, registerPosition } = useMousePosition()
+    const mousePosition = useMousePosition()
+
+    console.log(mousePosition)
 
     // Find index of correctPosition
 
@@ -19,7 +21,7 @@ export default defineComponent({
           label: 'red'
         },
         {
-          label: 'yellow'
+          label: 'blue'
         },
         {
           label: 'limegreen'
@@ -36,7 +38,7 @@ export default defineComponent({
           label: 'cyan'
         },
         {
-          label: 'yellow'
+          label: 'blue'
         },
         {
           label: 'red'
@@ -46,6 +48,16 @@ export default defineComponent({
       userSelection: {
         selectedWire: 'black',
         matchedWire: 'white'
+      },
+      wireLines: [],
+      drawWire: {
+        display: false,
+        label: null,
+        stroke: null,
+        x1: 0,
+        y1: 0,
+        offsetLeft: 0,
+        offsetTop: 0
       }
     })
 
@@ -60,19 +72,45 @@ export default defineComponent({
 
       if (selectedWire.value === matchedWire.value) {
         const selectedIndex = state.userWires.findIndex(
-          wireColor => wireColor === selectedWire.value
+          wire => wire.label === selectedWire.value
         )
 
         state.matchStatus[selectedIndex] = true
+        state.wireLines.push({
+          ...state.drawWire,
+          x2: mousePosition.x.value - state.drawWire.offsetLeft,
+          y2: mousePosition.y.value - state.drawWire.offsetTop
+        })
+        state.drawWire.display = false
       }
     }
 
-    const registerMatchColor = colorName => {
-      state.userSelection.matchedWire = colorName
+    const registerMatchColor = wire => {
+      state.userSelection.matchedWire = wire.label
     }
 
-    const registerWireColor = colorName => {
-      state.userSelection.selectedWire = colorName
+    const registerWireColor = ($event, wire) => {
+      state.userSelection.selectedWire = wire.label
+
+      const wireIndex = state.userWires.findIndex(userWire => userWire === wire)
+      const itemOffsetLeft = $event.target.offsetLeft
+      const parentOffsetLeft = $event.target.offsetParent.offsetLeft
+      const itemWidth = $event.target.clientWidth
+      const itemOffsetTop = $event.target.offsetTop
+      const parentOffsetTop = $event.target.offsetParent.offsetTop
+
+      const offsetLeft = itemOffsetLeft + parentOffsetLeft + itemWidth
+      const offsetTop = itemOffsetTop + parentOffsetTop - 120 - wireIndex * 20
+
+      state.drawWire = {
+        display: true,
+        label: wire.label,
+        stroke: wire.label,
+        x1: 0,
+        y1: 11 * wireIndex + 11 * (wireIndex + 1),
+        offsetLeft: offsetLeft,
+        offsetTop: offsetTop
+      }
     }
 
     const returnToGameStatus = () => {
@@ -87,7 +125,6 @@ export default defineComponent({
       registerMatchColor,
       registerWireColor,
       mousePosition,
-      registerPosition,
       returnToGameStatus
     }
   },
@@ -103,19 +140,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <section
-    :class="$style['mini-game']"
-    id="mini-game-3"
-    @mousemove="registerPosition"
-  >
+  <section :class="$style['mini-game']" id="mini-game-3">
     <h1>MiniGame 3</h1>
-    <p>{{ userSelection }}</p>
     <div :class="$style.wireboard">
       <div :class="$style.panel">
         <ul>
           <li v-for="wire in userWires" :key="`user-${wire.label}`">
             <div
-              @mousedown="registerWireColor(wire.label)"
+              @mousedown="registerWireColor($event, wire)"
               :style="`background-color: ${wire.label};`"
               :id="`wire-${wire.label}`"
             >
@@ -129,14 +161,24 @@ export default defineComponent({
       <div :class="$style.panel" style="flex: 1;">
         <svg :class="$style.svg">
           <line
-            v-for="(wire, index) in userWires"
-            :key="`line-${wire.label}`"
+            v-show="drawWire.display"
+            :key="`wire-line-draw`"
             :class="$style.line"
-            x1="0"
-            :y1="11 * index + 11 * (index + 1)"
-            x2="1160"
-            :y2="11 * findCorrectWire(wire) + 11 * (findCorrectWire(wire) + 1)"
-            :stroke="wire.label"
+            :x1="drawWire.x1"
+            :y1="drawWire.y1"
+            :x2="mousePosition.x.value - drawWire.offsetLeft"
+            :y2="mousePosition.y.value - drawWire.offsetTop"
+            :stroke="drawWire.stroke"
+          />
+          <line
+            v-for="wire in wireLines"
+            :key="`wire-line-${wire.label}`"
+            :class="$style.line"
+            :x1="wire.x1"
+            :y1="wire.y1"
+            :x2="wire.x2"
+            :y2="wire.y2"
+            :stroke="wire.stroke"
           />
         </svg>
       </div>
@@ -156,6 +198,7 @@ export default defineComponent({
         </ul>
       </div>
     </div>
+    <p>{{ matchStatus }}</p>
     <button @click="returnToGameStatus">Back to Game Status</button>
   </section>
 </template>
@@ -172,13 +215,12 @@ export default defineComponent({
 .mini-game {
   border: 2px solid rgb(14, 162, 162);
   padding: 2rem;
-  width: 1200px;
+  width: 400px;
   position: relative;
 }
 
 .wireboard {
   display: flex;
-  justify-content: space-between;
 }
 
 .panel ul,

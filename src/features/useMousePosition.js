@@ -1,18 +1,21 @@
-import { reactive } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
-export const useMousePosition = () => {
-  const mousePosition = reactive({
-    x: 0,
-    y: 0
+export default function() {
+  const x = ref(0)
+  const y = ref(0)
+
+  onMounted(() => {
+    window.addEventListener('mousemove', handleMouseMove)
   })
 
-  const registerPosition = event => {
-    mousePosition.x = event.clientX
-    mousePosition.y = event.clientY
+  onUnmounted(() => {
+    window.removeEventListener('mousemove', handleMouseMove)
+  })
+
+  const handleMouseMove = e => {
+    x.value = e.x
+    y.value = e.y
   }
 
-  return {
-    mousePosition,
-    registerPosition
-  }
+  return { x, y }
 }
