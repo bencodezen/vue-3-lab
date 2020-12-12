@@ -3,7 +3,6 @@
  * TODO: Minigames won should be by id and as a generic number, which would prevent users from submitting the same result multiple times
  * TODO: Create a win state for mini-games that disables additional play
  * TODO: Create components to centralize logic and better UI encapsulation
- * TODO: There should be an empty state for the user to actually start the game
  * TODO: Clean up UI pieces
  */
 
@@ -11,16 +10,33 @@ import { reactive, toRefs, watch } from 'vue'
 import MiniGame from '../components/SpaceGame/MiniGame.vue'
 import MiniGame2 from '../components/SpaceGame/MiniGame2.vue'
 import MiniGame3 from '../components/SpaceGame/MiniGame3.vue'
-import MiniGameStatus from '../components/SpaceGame/MiniGameStatus.vue'
 import { launchConfetti } from '../utils/canvasConfetti'
 
 export default {
   components: {
     MiniGame,
     MiniGame2,
-    MiniGame3,
-    MiniGameStatus
+    MiniGame3
   },
+  data: () => ({
+    minigames: [
+      {
+        id: 'mg-enter-password',
+        label: 'Enter Password',
+        complete: false
+      },
+      {
+        id: 'mg-sequence-solver',
+        label: 'Sequence Solver',
+        complete: false
+      },
+      {
+        id: 'mg-wire-matcher',
+        label: 'Wire Matcher',
+        complete: false
+      }
+    ]
+  }),
   setup() {
     const state = reactive({
       gameStatus: 'Not Started',
@@ -75,11 +91,6 @@ export default {
 <template>
   <div>
     <h1>Space Game</h1>
-    <h2>Game Status</h2>
-    <p>{{ gameStatus }}</p>
-    <p>Selected Game: {{ selectedGame }}</p>
-    <h2>User Properties</h2>
-    <p>Mini-Games Won: {{ miniGamesWon }}</p>
     <div class="game-stage">
       <div class="mini-game-wrapper">
         <MiniGame
@@ -97,7 +108,25 @@ export default {
           @mini-game-won="updateUserMiniGame"
           @select-minigame="registerSelection"
         />
-        <MiniGameStatus v-else @select-minigame="registerSelection" />
+        <div v-else>
+          <div v-if="gameStatus === 'Not Started'">
+            <p>Ready to play?</p>
+          </div>
+
+          <div v-else>
+            <h2>Mission</h2>
+            <p>Complete all three mini-games to win!</p>
+            <ul>
+              <li
+                v-for="minigame in minigames"
+                :key="minigame.id"
+                @click="sendSelection(minigame)"
+              >
+                {{ minigame.label }}
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
       <div
         class="panel"

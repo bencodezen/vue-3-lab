@@ -7,15 +7,18 @@ export default {
       minigames: [
         {
           id: 'mg-enter-password',
-          label: 'Enter Password'
+          label: 'Enter Password',
+          complete: false
         },
         {
           id: 'mg-sequence-solver',
-          label: 'Sequence Solver'
+          label: 'Sequence Solver',
+          complete: false
         },
         {
           id: 'mg-wire-matcher',
-          label: 'Wire Matcher'
+          label: 'Wire Matcher',
+          complete: false
         }
       ]
     })
