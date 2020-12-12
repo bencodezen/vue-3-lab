@@ -81,8 +81,9 @@ export default defineComponent({
           x2: mousePosition.x.value - state.drawWire.offsetLeft,
           y2: mousePosition.y.value - state.drawWire.offsetTop
         })
-        state.drawWire.display = false
       }
+
+      state.drawWire.display = false
     }
 
     const registerMatchColor = wire => {
@@ -100,7 +101,7 @@ export default defineComponent({
       const parentOffsetTop = $event.target.offsetParent.offsetTop
 
       const offsetLeft = itemOffsetLeft + parentOffsetLeft + itemWidth
-      const offsetTop = itemOffsetTop + parentOffsetTop - 120 - wireIndex * 20
+      const offsetTop = itemOffsetTop + parentOffsetTop - 20 * wireIndex
 
       state.drawWire = {
         display: true,
