@@ -1,25 +1,15 @@
 <script>
-import { reactive, toRefs } from 'vue'
+import TodoMVC from '../components/TodoMVC.vue'
 
 export default {
-  setup() {
-    const state = reactive({
-      list: [1, 2, 3]
-    })
-
-    return {
-      ...toRefs(state)
-    }
+  components: {
+    TodoMVC
   }
 }
 </script>
 
 <template>
-  <ul>
-    <li v-for="item in list" :key="item">
-      <p>{{ item }}</p>
-    </li>
-  </ul>
+  <TodoMVC />
 </template>
 
 <style></style>
