@@ -101,6 +101,12 @@ export default {
 
 <template>
   <h2>Card Slider</h2>
+  <p>
+    Original Inspiration from
+    <a href="https://codepen.io/chingy/pen/yLLZRbj?editors=1010"
+      >Jonathan Ching</a
+    >
+  </p>
   <div class="carousel">
     <div class="carousel__body">
       <div class="carousel__prev">
@@ -135,6 +141,10 @@ export default {
   --box-shadow: #0000001c;
   --box-shadow-border: #0000000f;
   --box-border: #fff;
+}
+
+#app {
+  color: white;
 }
 
 body {
