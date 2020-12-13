@@ -17,6 +17,8 @@
     "lottie-web": "^5.7.3",
     "nodemailer": "^6.4.16",
     "nodemailer-sendgrid-transport": "^0.2.0",
+    "sass": "^1.30.0",
+    "sass-loader": "^10.1.0",
     "vue": "^3.0.0-0",
     "vue-confetti": "^2.2.1",
     "vue-router": "^4.0.0-0"
@@ -29,7 +31,8 @@
     "@vue/compiler-sfc": "^3.0.0-0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0-0"
+    "eslint-plugin-vue": "^7.0.0-0",
+    "vue-cli-plugin-sass-resources-loader": "^1.0.0"
   },
   "eslintConfig": {
     "root": true,
