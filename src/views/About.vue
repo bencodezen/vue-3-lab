@@ -1,17 +1,5 @@
 <script>
-export default {
-  data: () => ({
-    isDragon: true
-  }),
-  computed: {
-    displayDragonStyles() {
-      return this.isDragon ? 'is-visible' : ''
-    },
-    displayUnicornStyles() {
-      return this.isDragon ? '' : 'is-visible'
-    }
-  }
-}
+export default {}
 </script>
 
 <template>
