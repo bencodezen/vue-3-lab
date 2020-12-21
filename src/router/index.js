@@ -28,6 +28,12 @@ const routes = [
       import(/* webpackChunkName: "panel" */ '../views/Panel.vue')
   },
   {
+    path: '/counter',
+    name: 'Counter',
+    component: () =>
+      import(/* webpackChunkName: "counter" */ '../views/Counter.vue')
+  },
+  {
     path: '/space-game',
     name: 'SpaceGame',
     component: () =>
