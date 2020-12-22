@@ -14,6 +14,36 @@ export default {
       })
 
       this.userIngredientInput = ''
+    },
+    incrementCount(label, count) {
+      axios
+        .post(
+          'https://pantry.hasura.app/v1/graphql',
+          {
+            query: `
+            mutation MyMutation($label: String!, $count: Int!) {
+              update_pantry(where: {label: {_eq: $label}}, _set: {count: $count}) {
+                affected_rows
+              }
+            }
+          `,
+            variables: {
+              label,
+              count
+            }
+          },
+          {
+            headers: {
+              'X-Hasura-Admin-Secret': process.env.VUE_APP_HASURA_ADMIN_SECRET,
+              'X-Hasura-Role': 'user'
+            }
+          }
+        )
+        .then(response => {
+          if (response.data.data.update_pantry.affected_rows) {
+            this.ingredients.find(item => item.label === label).count += 10
+          }
+        })
     }
   },
   mounted() {
@@ -22,13 +52,13 @@ export default {
         'https://pantry.hasura.app/v1/graphql',
         {
           query: `
-          query {
-            pantry {
-              label
-              count
+            query {
+              pantry {
+                label
+                count
+              }
             }
-          }
-        `
+          `
         },
         {
           headers: {
@@ -58,7 +88,9 @@ export default {
   <ul>
     <li v-for="ingredient in ingredients" :key="ingredient.label">
       {{ ingredient.label }} - {{ ingredient.count }}
-      <button @click="ingredient.count += 1">Increment</button>
+      <button @click="incrementCount(ingredient.label, ingredient.count + 1)">
+        Increment
+      </button>
     </li>
   </ul>
 </template>
