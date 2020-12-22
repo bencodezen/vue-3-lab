@@ -10,29 +10,29 @@ export default {
       if (index > this.cardList.length) index = 1
       this.currIndex = index
 
-      for (var i = 0; i < this.cardList.length; i++) {
-        let item = this.cardList[i],
-          box = item.getElementsByClassName('item__3d-frame')[0]
-        if (i == index - 1) {
-          item.classList.add('carousel__slider__item--active')
-          box.style.transform = 'perspective(1200px)'
-        } else {
-          item.classList.remove('carousel__slider__item--active')
-          box.style.transform =
-            'perspective(1200px) rotateY(' + (i < index - 1 ? 40 : -40) + 'deg)'
-        }
+      // for (var i = 0; i < this.cardList.length; i++) {
+      //   let item = this.cardList[i],
+      //     box = item.getElementsByClassName('item__3d-frame')[0]
+      //   if (i == index - 1) {
+      //     item.classList.add('carousel__slider__item--active')
+      //     box.style.transform = 'perspective(1200px)'
+      //   } else {
+      //     item.classList.remove('carousel__slider__item--active')
+      //     box.style.transform =
+      //       'perspective(1200px) rotateY(' + (i < index - 1 ? 40 : -40) + 'deg)'
+      //   }
 
-        slider.style.transform =
-          'translate3d(' +
-          (index * -width + width / 2 + window.innerWidth / 2) +
-          'px, 0, 0)'
-      }
+      //   slider.style.transform =
+      //     'translate3d(' +
+      //     (index * -width + width / 2 + window.innerWidth / 2) +
+      //     'px, 0, 0)'
+      // }
     }
   },
   mounted() {
     const initCodepenJs = function() {
       var carousel = document.getElementsByClassName('carousel')[0],
-        slider = carousel.getElementsByClassName('carousel__slider')[0],
+        // slider = carousel.getElementsByClassName('carousel__slider')[0],
         prevBtn = carousel.getElementsByClassName('carousel__prev')[0],
         nextBtn = carousel.getElementsByClassName('carousel__next')[0]
 
