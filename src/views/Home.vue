@@ -28,8 +28,6 @@ export default {
       }
     )
 
-    const
-
     return {
       ...toRefs(state),
       incrementCount
