@@ -2,6 +2,21 @@
 import axios from 'axios'
 
 export default {
+  props: {
+    type: {
+      type: String,
+      required: true,
+      validator: value => {
+        const valid = ['sm', 'md', 'lg'].includes(value)
+
+        if (!valid) {
+          console.error('Incorrect value:', value)
+        }
+
+        return valid
+      }
+    }
+  },
   methods: {
     fetchBackgroundFunction() {
       axios

@@ -1,15 +1,22 @@
 <script>
-import BackgroundFunction from '../components/BackgroundFunction.vue'
+import useStore from '../features/useStore'
 
 export default {
-  components: {
-    BackgroundFunction
+  setup() {
+    const { state, changeCount } = useStore
+
+    console.log(state)
+
+    return {
+      state,
+      changeCount
+    }
   }
 }
 </script>
 
 <template>
-  <background-function />
+  <h1>Counter</h1>
+  <p>{{ state.count }}</p>
+  <button @click="changeCount">Change Count</button>
 </template>
-
-<style></style>
