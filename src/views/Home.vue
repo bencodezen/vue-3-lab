@@ -1,22 +1,39 @@
+<template>
+  <div class="home">
+    <img alt="Vue logo" src="../assets/logo.png" />
+    <p>{{ count }}</p>
+    <button @click="incrementCount">Add</button>
+  </div>
+</template>
+
 <script>
-import useStore from '../features/useStore'
+import { reactive, toRefs, watch } from 'vue'
 
 export default {
+  name: 'Home',
   setup() {
-    const { state, changeCount } = useStore
+    const state = reactive({
+      count: 0
+    })
 
-    console.log(state)
+    const incrementCount = () => {
+      state.count++
+    }
+
+    watch(
+      () => state.count,
+      (currentValue, oldValue) => {
+        console.log('current', currentValue)
+        console.log('old', oldValue)
+      }
+    )
+
+    const
 
     return {
-      state,
-      changeCount
+      ...toRefs(state),
+      incrementCount
     }
   }
 }
 </script>
-
-<template>
-  <h1>Counter</h1>
-  <p>{{ state.count }}</p>
-  <button @click="changeCount">Change Count</button>
-</template>
