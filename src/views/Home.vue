@@ -13,7 +13,7 @@ export default {
   name: 'Home',
   setup() {
     const state = reactive({
-      count: 0
+      count: 18
     })
 
     const incrementCount = () => {
