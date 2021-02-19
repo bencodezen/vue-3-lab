@@ -4,7 +4,9 @@ import axios from 'axios'
 export default {
   methods: {
     callLocalHost() {
-      axios.post('http://localhost:8888/.netlify/functions/cors-lab')
+      axios.post(
+        'https://experiment-sample-website.netlify.app/.netlify/functions/cors-lab'
+      )
     }
   }
 }
