@@ -1,11 +1,17 @@
+<script>
+import axios from 'axios'
+
+export default {
+  methods: {
+    callLocalHost() {
+      axios.post('http://localhost:8888/.netlify/functions/cors-lab')
+    }
+  }
+}
+</script>
+
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/lab">Lab</router-link> |
-    <router-link to="/space-game">Space Game</router-link>
-  </div>
-  <router-view />
+  <button @click="callLocalHost">Call Local Host</button>
 </template>
 
 <style>
