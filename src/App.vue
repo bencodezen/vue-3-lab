@@ -5,7 +5,12 @@ export default {
   methods: {
     callLocalHost() {
       axios.post(
-        'https://experiment-sample-website.netlify.app/.netlify/functions/cors-lab'
+        'https://experiment-sample-website.netlify.app/.netlify/functions/cors-lab',
+        {
+          headers: {
+            'x-test': 'boo!'
+          }
+        }
       )
     }
   }
