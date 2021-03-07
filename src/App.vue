@@ -18,7 +18,11 @@ export default {
 </script>
 
 <template>
-  <button @click="callLocalHost">Call Local Host</button>
+  <router-link to="/">Home</router-link> |
+  <router-link to="/lab">Lab</router-link> |
+  <router-link to="/space-game">Space Game</router-link>
+  <router-view />
+
 </template>
 
 <style>
